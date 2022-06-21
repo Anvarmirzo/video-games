@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Game} from '../../models';
+import {IGame} from '../../models';
 import {Subscription} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {HttpService} from '../../services/http.service';
@@ -12,7 +12,7 @@ import {HttpService} from '../../services/http.service';
 export class DetailsComponent implements OnInit, OnDestroy {
   gameRating = 0;
   gameId = '';
-  game: Game = {
+  game: IGame = {
     background_image: '',
     description: '',
     genres: [],
@@ -38,21 +38,25 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.routeSub = this.activatedRoute.params.subscribe((params) => {
-      this.gameId = params['id'];
-      this.getGameDetails(this.gameId);
+    this.routeSub = this.activatedRoute.params.subscribe({
+      next: (params) => {
+        this.gameId = params['id'];
+        this.getGameDetails(this.gameId);
+      }
     });
   }
 
   getGameDetails(id: string): void {
     this.gameSub = this.httpService
       .getGameDetails(id)
-      .subscribe((gameResp: Game) => {
-        this.game = gameResp;
+      .subscribe({
+        next: (gameResp) => {
+          this.game = gameResp;
 
-        setTimeout(() => {
-          this.gameRating = this.game?.metacritic || 0;
-        }, 1000);
+          setTimeout(() => {
+            this.gameRating = this.game?.metacritic || 0;
+          }, 1000);
+        }
       });
   }
 
@@ -69,12 +73,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.gameSub) {
-      this.gameSub.unsubscribe();
-    }
-
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
-    }
+    if (this.gameSub) this.gameSub.unsubscribe();
+    if (this.routeSub) this.routeSub.unsubscribe();
   }
 }

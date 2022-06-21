@@ -1,29 +1,29 @@
-export interface Game {
+export interface IGame {
   background_image: string;
   name: string;
-  id:number;
+  id: number;
   released: string;
   metacritic_url: string;
   website: string;
   description: string;
   metacritic: number;
-  genres: Array<Genre>;
-  parent_platforms: Array<ParentPlatform>;
-  publishers: Array<Publishers>;
-  ratings: Array<Rating>;
-  screenshots: Array<Screenshots>;
-  trailers: Array<Trailer>;
+  genres: IGenre[];
+  parent_platforms: IParentPlatform[];
+  publishers: IPublishers[];
+  ratings: IRating[];
+  screenshots: IScreenshots[];
+  trailers: ITrailer[];
 }
 
 export interface APIResponse<T> {
-  results: Array<T>;
+  results: T[];
 }
 
-interface Genre {
+interface IGenre {
   name: string;
 }
 
-interface ParentPlatform {
+interface IParentPlatform {
   platform: {
     id: number;
     name: string;
@@ -31,21 +31,21 @@ interface ParentPlatform {
   };
 }
 
-interface Publishers {
+interface IPublishers {
   name: string;
 }
 
-interface Rating {
+interface IRating {
   id: number;
   count: number;
   title: string;
 }
 
-interface Screenshots {
+export interface IScreenshots {
   image: string;
 }
 
-interface Trailer {
+export interface ITrailer {
   data: {
     max: string;
   };
