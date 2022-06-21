@@ -1,9 +1,9 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-app.use(express.static(__dirname + '/dist/task-tracker'));
+app.use(express.static(__dirname + '/dist/video-games'));
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname + '/dist/task-tracker/index.html'));
+  res.sendFile(path.join(__dirname + '/dist/video-games/index.html'));
 });
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Task Tracker is listening on port ${port}...`));
+app.listen(port, () => console.log(`Video games is listening on port ${port}...`));
