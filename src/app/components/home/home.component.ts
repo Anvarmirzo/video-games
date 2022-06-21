@@ -1,4 +1,8 @@
 import {Component, OnInit} from '@angular/core';
+import {Game} from '../../models';
+import {HttpService} from '../../services/http.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -7,26 +11,41 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   sort = '';
-  games = [{
-    id: 1,
-    background_image: 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60',
-    name: 'Game 1',
-    parent_platforms: [{
-      platform:{
-        slug: 'pc',
-      }
-    }]
-  }];
+  games: Game[] = [];
+  private routerSub?: Subscription;
+  private gameSub?: Subscription;
 
-  constructor() {
+  constructor(
+    private httpService: HttpService,
+    private activatedRoute: ActivatedRoute,
+    private router?: Router
+  ) {
   }
 
   ngOnInit(): void {
+    this.routerSub = this.activatedRoute.queryParams.subscribe({
+      next: params => {
+        if (params['game-search']) {
+          this.searchGames('metacrit', params['game-search']);
+        } else {
+          this.searchGames('metacrit');
+        }
+      }
+    });
   }
 
   openGameDetails(id: number) {
+    this.router?.navigate(['details', id]);
   }
 
-  searchGames(search: string) {
+  searchGames(sort: string, search?: string) {
+    this.gameSub = this.httpService.getGameList(sort, search).subscribe({
+      next: (games) => this.games = games.results
+    })
+  }
+
+  ngOnDestroy() {
+    if (this.gameSub) this.gameSub.unsubscribe();
+    if (this.routerSub) this.routerSub.unsubscribe();
   }
 }
