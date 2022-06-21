@@ -1,10 +1,11 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   production: false,
-  BASE_URL: 'https://rawg-video-games-database.p.rapidapi.com'
+  BASE_URL: 'https://rawg-video-games-database.p.rapidapi.com',
+  API_KEY: '17c3eddb46msh29d177a4abcf49bp1b4fafjsnc4fb0df99ddf',
+  API_HOST: 'rawg-video-games-database.p.rapidapi.com'
 };
 
 /*

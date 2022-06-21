@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Game} from '../../models';
+import {IGame} from '../../models';
 import {HttpService} from '../../services/http.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Subscription} from 'rxjs';
@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 })
 export class HomeComponent implements OnInit {
   sort = '';
-  games: Game[] = [];
+  games: IGame[] = [];
   private routerSub?: Subscription;
   private gameSub?: Subscription;
 
